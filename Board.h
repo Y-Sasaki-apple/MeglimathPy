@@ -1,9 +1,12 @@
 #pragma once
 #include<memory>
-#include<boost/python.hpp>
 #include"GameLogic/GameLogic.h"
+#define BOOST_PYTHON_STATIC_LIB    
+#define BOOST_NUMPY_STATIC_LIB    
+#include<boost/python/numpy.hpp>
+#include<boost/python.hpp>
 namespace py = boost::python;
-
+namespace np = boost::python::numpy;
 class Board {
 	std::unique_ptr<GameLogic> gamelogic;
 	std::unordered_map<TeamType, Think> _thinks;
@@ -15,7 +18,9 @@ public:
 	py::tuple has_a_winner();
 	py::tuple game_end();
 	int get_current_player();
-
+	np::ndarray get_current_state();
+	np::ndarray get_board_state();
+	np::ndarray get_player_state();
 	Board();
 	Board(const Board &);
 };

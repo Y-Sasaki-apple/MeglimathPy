@@ -1,10 +1,12 @@
-#define BOOST_PYTHON_STATIC_LIB    
 #include"Board.h"
 #include"GameLogic/GameLogic.h"
+#define BOOST_PYTHON_STATIC_LIB    
 #include<boost\python\tuple.hpp>
+
 void Board::init_board(int start_player)
 {
-	gamelogic.reset(new GameLogic());
+	gamelogic.reset(new GameLogic(60));
+	gamelogic->initAgentsPos();
 }
 void Board::do_move(int move)
 {
@@ -34,11 +36,48 @@ int Board::get_current_player()
 {
 	return (int)turn;
 }
+np::ndarray Board::get_current_state()
+{
+	auto cells = gamelogic->GetField().GetCells();
+	py::tuple shape = py::make_tuple(cells.width(), cells.height());
+	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
+	for (int x = 0; x < cells.width(); x++) {
+		for (int y = 0; y < cells.height(); y++) {
+			ret[x][y] = (int)cells[x][y].GetTile();
+		}
+	}
+	return ret;
+}
+np::ndarray Board::get_board_state()
+{
+	auto cells = gamelogic->GetField().GetCells();
+	py::tuple shape = py::make_tuple(cells.width(), cells.height());
+	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
+	for (int x = 0; x < cells.width(); x++) {
+		for (int y = 0; y < cells.height(); y++) {
+			ret[x][y] = cells[x][y].GetPoint();
+		}
+	}
+	return ret;
+}
+np::ndarray Board::get_player_state()
+{
+	auto cells = gamelogic->GetField().GetCells();
+	py::tuple shape = py::make_tuple(cells.width(), cells.height());
+	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
+	auto ag = gamelogic->GetAgents();
+	for (int i = 0; i < ag.size(); i++) {
+		auto p = ag[i].GetPosition();
+		ret[p.x][p.y] = i + 1;
+	}
+	return ret;
+}
 Board::Board() :gamelogic(new GameLogic())
 {
-
+	gamelogic->initAgentsPos();
 }
 
-Board::Board(const Board &):gamelogic(new GameLogic())
+Board::Board(const Board &) : gamelogic(new GameLogic(60))
 {
+	gamelogic->initAgentsPos();
 }

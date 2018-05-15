@@ -12,7 +12,8 @@ std::unordered_map<TeamType, std::vector<Agent>> GameLogic::GetAgentMap() const
 std::vector<Agent> GameLogic::GetAgents() const
 {
 	std::vector<Agent> ret{ _teamlogics[0].GetAgents() };
-	ret.assign(_teamlogics[1].GetAgents().cbegin(), _teamlogics[1].GetAgents().cend());
+	std::vector<Agent> con{ _teamlogics[1].GetAgents() };
+	ret.insert(ret.end(),con.begin(),con.end());
 	return ret;
 }
 std::vector<TeamLogic>& GameLogic::getTeamLogics()
@@ -170,7 +171,7 @@ int GameLogic::GetWinner()
 	if (_teamlogics[0].GetTotalPoint() > _teamlogics[1].GetTotalPoint()) {
 		return (int)TeamType::A;
 	}
-	else if(_teamlogics[0].GetTotalPoint() < _teamlogics[1].GetTotalPoint()) {
+	else if (_teamlogics[0].GetTotalPoint() < _teamlogics[1].GetTotalPoint()) {
 		return (int)TeamType::B;
 	}
 	else {
@@ -186,6 +187,10 @@ Field GameLogic::GetField() const
 GameLogic::GameLogic() :_teamlogics({ TeamLogic(),TeamLogic() })
 {
 
+}
+
+GameLogic::GameLogic(int turn) : _turn(turn), _teamlogics({ TeamLogic(),TeamLogic() })
+{
 }
 
 GameLogic::~GameLogic()
