@@ -21,6 +21,7 @@ public:
 	np::ndarray get_current_state();
 	np::ndarray get_board_state();
 	np::ndarray get_player_state();
+	py::list get_availables()const;
 	Board();
 	Board(const Board &);
 };

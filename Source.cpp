@@ -17,5 +17,6 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 		.def("get_current_state",&Board::get_current_state)
 		.def("get_board_state",&Board::get_board_state)
 		.def("get_player_state", &Board::get_player_state)
+		.add_property("availables",&Board::get_availables)
 		;
 }
