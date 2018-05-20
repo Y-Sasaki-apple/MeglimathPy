@@ -43,7 +43,7 @@ np::ndarray Board::get_current_state()
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for (int x = 0; x < cells.width(); x++) {
 		for (int y = 0; y < cells.height(); y++) {
-			ret[x][y] = (int)cells[x][y].GetTile();
+			ret[x][y] = (int)cells[y][x].GetTile();
 		}
 	}
 	return ret;
@@ -55,7 +55,7 @@ np::ndarray Board::get_board_state()
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for (int x = 0; x < cells.width(); x++) {
 		for (int y = 0; y < cells.height(); y++) {
-			ret[x][y] = cells[x][y].GetPoint();
+			ret[x][y] = cells[y][x].GetPoint();
 		}
 	}
 	return ret;
