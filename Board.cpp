@@ -1,11 +1,13 @@
 #include"Board.h"
-#include"GameLogic/GameLogic.h"
+
 #define BOOST_PYTHON_STATIC_LIB    
 #include<boost\python\tuple.hpp>
 
 void Board::init_board(int start_player)
 {
 	gamelogic.reset(new GameLogic(60));
+	first = start_player ? TeamType::A : TeamType::B;
+	turn = first;
 	gamelogic->initAgentsPos();
 }
 void Board::do_move(int move)
@@ -26,15 +28,15 @@ void Board::do_move(int move)
 }
 py::tuple Board::has_a_winner()
 {
-	return py::make_tuple(gamelogic->GetGameEnd(), gamelogic->GetWinner());
+	return py::make_tuple(gamelogic->GetWinner() != -1, gamelogic->GetWinner());
 }
 py::tuple Board::game_end()
 {
-	return py::make_tuple(gamelogic->GetWinner() != -1, gamelogic->GetWinner());
+	return py::make_tuple(gamelogic->GetGameEnd(), gamelogic->GetWinner());
 }
 int Board::get_current_player()
 {
-	return (int)turn;
+	return turn == TeamType::A ? 0 : 1;
 }
 np::ndarray Board::get_current_state()
 {
@@ -43,7 +45,7 @@ np::ndarray Board::get_current_state()
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for (int x = 0; x < cells.width(); x++) {
 		for (int y = 0; y < cells.height(); y++) {
-			ret[x][y] = (int)cells[y][x].GetTile();
+			ret[x][y] = (int)cells[y][x].GetTile()-1;
 		}
 	}
 	return ret;

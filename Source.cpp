@@ -1,5 +1,5 @@
 #include"Board.h"
-#include"GameLogic/GameLogic.h"
+#include"simulater/MeglimathCore/GameLogic/GameLogic.h"
 #define BOOST_PYTHON_STATIC_LIB  
 #include<boost\python.hpp>
 

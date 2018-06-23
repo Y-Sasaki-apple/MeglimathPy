@@ -13,67 +13,52 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="gamelogic">
+      <UniqueIdentifier>{c43305d8-caf6-4531-aba0-f5e499b55807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameLogic\Util.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Types.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Think.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\TeamLogic.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\GamePoints.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\GameLogic.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Field.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Cell.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Agent.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Action.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Board.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Action.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Agent.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Cell.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Field.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Format.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\GameLogic.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\GamePoints.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\TeamLogic.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Think.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Transform.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Types.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="simulater\MeglimathCore\GameLogic\Util.h">
+      <Filter>gamelogic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLogic\Agent.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\Cell.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\Field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\GameLogic.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\GamePoints.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\TeamLogic.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\Transform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Board.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -82,6 +67,33 @@
     </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Agent.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Cell.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Field.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Format.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\GameLogic.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\GamePoints.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\TeamLogic.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Think.cpp">
+      <Filter>gamelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="simulater\MeglimathCore\GameLogic\Transform.cpp">
+      <Filter>gamelogic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
