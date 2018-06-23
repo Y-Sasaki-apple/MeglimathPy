@@ -13,10 +13,10 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 		.def("do_move", &Board::do_move)
 		.def("has_a_winner", &Board::has_a_winner)
 		.def("game_end", &Board::game_end)
-		.def("get_current_player",&Board::get_current_player)
-		.def("get_current_state",&Board::get_current_state)
-		.def("get_board_state",&Board::get_board_state)
+		.def("get_current_player", &Board::get_current_player)
+		.def("get_current_state", &Board::get_current_state)
+		.def("get_board_state", &Board::get_board_state)
 		.def("get_player_state", &Board::get_player_state)
-		.add_property("availables",&Board::get_availables)
+		.add_property("availables", &Board::get_availables)
 		;
 }
