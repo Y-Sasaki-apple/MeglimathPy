@@ -2,6 +2,7 @@
 #include"simulater/MeglimathCore/GameLogic/GameLogic.h"
 #define BOOST_PYTHON_STATIC_LIB  
 #include<boost\python.hpp>
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(init_board_,init_board,0,3)
 
 BOOST_PYTHON_MODULE(MeglimathPy) {
 	using namespace boost::python;
@@ -9,7 +10,7 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 	Py_Initialize();
 	np::initialize();
 	class_<Board>("Board")
-		.def("init_board", &Board::init_board)
+		.def("init_board", &Board::init_board,init_board_())
 		.def("do_move", &Board::do_move)
 		.def("has_a_winner", &Board::has_a_winner)
 		.def("game_end", &Board::game_end)
