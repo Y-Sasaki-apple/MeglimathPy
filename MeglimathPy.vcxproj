@@ -149,7 +149,7 @@
       <AdditionalIncludeDirectories>$(BOOST_INCLUDE_PATH);$(PYTHON_INCLUDE);$(RAPIDJSON);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>_WINDLL;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(BOOST_LIB_PATH);$(PYTHON_LIB);</AdditionalLibraryDirectories>
@@ -211,6 +211,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="deepcopy.h" />
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Action.h" />
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Agent.h" />
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Cell.h" />

@@ -2,7 +2,7 @@
 #include"simulater/MeglimathCore/GameLogic/GameLogic.h"
 #define BOOST_PYTHON_STATIC_LIB  
 #include<boost\python.hpp>
-
+#include "deepcopy.h"
 BOOST_PYTHON_MODULE(MeglimathPy) {
 	using namespace boost::python;
 	namespace np = boost::python::numpy;
@@ -17,6 +17,7 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 		.def("get_current_state",&Board::get_current_state)
 		.def("get_board_state",&Board::get_board_state)
 		.def("get_player_state", &Board::get_player_state)
+		.def("__deepcopy__",&generic__deepcopy__<Board>)
 		.add_property("availables",&Board::get_availables)
 		;
 }
