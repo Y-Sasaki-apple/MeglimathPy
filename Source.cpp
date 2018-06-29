@@ -3,7 +3,7 @@
 #define BOOST_PYTHON_STATIC_LIB  
 #include<boost\python.hpp>
 #include "deepcopy.h"
-BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(init_board_,init_board,0,3)
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(init_board_,init_board,0,4)
 
 BOOST_PYTHON_MODULE(MeglimathPy) {
 	using namespace boost::python;
