@@ -3,11 +3,10 @@
 #define BOOST_PYTHON_STATIC_LIB    
 #include<boost\python\tuple.hpp>
 
-void Board::init_board(int start_player)
-{
-	gamelogic.reset(new GameLogic(60));
-	first = start_player ? TeamType::A : TeamType::B;
-	turn = first;
+void Board::init_board(int turn, int start_player, int width, int height) {
+	gamelogic.reset(new GameLogic(turn));
+	first = !start_player ? TeamType::A : TeamType::B;
+	this->turn = first;
 	gamelogic->initAgentsPos();
 }
 void Board::do_move(int move)
