@@ -39,7 +39,15 @@ np::ndarray Board::get_current_state()const {
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for ( int x = 0; x < cells.width(); x++ ) {
 		for ( int y = 0; y < cells.height(); y++ ) {
-			ret[x][y] = ( int )cells[y][x].GetTile() - 1;
+			switch ( cells[y][x].GetTile()) {
+			case TileType::A:
+				ret[x][y] = 0; break;
+			case TileType::B:
+				ret[x][y] = 1; break;
+			default:
+				ret[x][y] = -1;
+				break;
+			}
 		}
 	}
 	return ret;
