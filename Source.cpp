@@ -21,5 +21,7 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 		.def("get_player_state", &Board::get_player_state)
 		.def("__deepcopy__",&generic__deepcopy__<Board>)
 		.add_property("availables",&Board::get_availables)
+		.add_property("remain_turn",&Board::get_remain_turn)
+		.def("get_point",&Board::get_point)
 		;
 }
