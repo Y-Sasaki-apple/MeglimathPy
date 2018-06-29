@@ -13,7 +13,7 @@ class Board {
 	TeamType turn{ TeamType::A };
 	TeamType first{ TeamType::A };
 public:
-	void init_board(int start_player = 0, size_t width = 12, size_t height = 12);
+	void init_board(int turn = 60, int start_player = 0, int width = 6, int height = 6);
 	void do_move(int move);
 	py::tuple has_a_winner();
 	py::tuple game_end();
