@@ -94,8 +94,8 @@ py::list Board::get_availables()const {
 		int move2 = move % 17;
 		Action act1{ move1 / 8 };
 		Action act2{ move2 / 8 };
-		Direction dir1{ (int)act1 == 8 ? 8 : move1 % 8 };
-		Direction dir2{ (int)act1 == 8 ? 8 : move2 % 8 };
+		Direction dir1{ (int)act1 == 2 ? 8 : move1 % 8 };
+		Direction dir2{ (int)act2 == 2 ? 8 : move2 % 8 };
 		Think think{ { act1,dir1 },{ act2,dir2 } };
 
 		if (gamelogic->IsThinkAble(turn, think))ret.append(move);
@@ -106,5 +106,5 @@ Board::Board() :gamelogic(new GameLogic(60)) {
 	gamelogic->initAgentsPos();
 }
 
-Board::Board(const Board &b) : gamelogic(std::make_unique<GameLogic>(*b.gamelogic)) {}
+Board::Board(const Board &b) : gamelogic(std::make_unique<GameLogic>(*b.gamelogic)),_thinks(b._thinks),turn(b.turn),first(b.first) {}
 
