@@ -12,6 +12,7 @@ BOOST_PYTHON_MODULE(MeglimathPy) {
 	np::initialize();
 	class_<Board>("Board")
 		.def("init_board", &Board::init_board,init_board_())
+		.def("make_board",&Board::make_board)
 		.def("do_move", &Board::do_move)
 		.def("has_a_winner", &Board::has_a_winner)
 		.def("game_end", &Board::game_end)

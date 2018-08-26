@@ -1,5 +1,6 @@
 #pragma once
 #include<memory>
+#include<string>
 #include"simulater/MeglimathCore/GameLogic/GameLogic.h"
 #define BOOST_PYTHON_STATIC_LIB    
 #define BOOST_NUMPY_STATIC_LIB    
@@ -26,4 +27,6 @@ public:
 	py::list get_availables()const;
 	Board();
 	Board(const Board &);
+	void make_board(py::tuple size,np::ndarray points, py::tuple agent1, py::tuple agent2, py::tuple agent3, py::tuple agent4, 
+		np::ndarray tile,int rturn);
 };
