@@ -6,21 +6,20 @@
 #include<iostream>
 using boost::irange;
 void Board::init_board(int turn, int start_player, int width, int height) {
-	gamelogic.reset(new GameLogic(turn, { static_cast<size_t>(height),static_cast<size_t>(width) }));
+	gamelogic->InitializeRandom(turn,height,width);
 	first = !start_player ? TeamType::A : TeamType::B;
 	this->turn = first;
-	gamelogic->initAgentsPos();
 	this->_thinks.clear();
 }
 void Board::do_move(int move) {
-	auto team = gamelogic->getTeamLogics()[0];
+	auto team = gamelogic->GetTeams()[0];
 	int move1 = move / 17;
 	int move2 = move % 17;
 	Action act1{ move1 / 8 };
 	Action act2{ move2 / 8 };
 	Direction dir1{ (int)act1 == 8 ? 8 : move1 % 8 };
 	Direction dir2{ (int)act1 == 8 ? 8 : move2 % 8 };
-	Think think{ {act1,dir1},{act2,dir2} };
+	Think think{ { {{act1,dir1},{act2,dir2} } } };
 	_thinks[turn] = think;
 	if (turn != first) {
 		gamelogic->NextTurn(_thinks);
@@ -37,13 +36,13 @@ int Board::get_current_player()const {
 	return turn == TeamType::A ? 0 : 1;
 }
 np::ndarray Board::get_current_state()const {
-	auto cells = gamelogic->GetField().GetCells();
+	auto& cells = gamelogic->GetField().cells;
 	py::tuple shape = py::make_tuple(cells.width(), cells.height());
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for (int x = 0; x < cells.width(); x++) {
 		for (int y = 0; y < cells.height(); y++) {
 			int r;
-			switch (cells[y][x].GetTile())
+			switch (cells[y][x].tile)
 			{
 			case TileType::A:
 				r = 0;
@@ -61,23 +60,23 @@ np::ndarray Board::get_current_state()const {
 	return ret;
 }
 np::ndarray Board::get_board_state()const {
-	auto cells = gamelogic->GetField().GetCells();
+	const auto& cells = gamelogic->GetField().cells;
 	py::tuple shape = py::make_tuple(cells.width(), cells.height());
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	for (int x = 0; x < cells.width(); x++) {
 		for (int y = 0; y < cells.height(); y++) {
-			ret[x][y] = cells[y][x].GetPoint();
+			ret[x][y] = cells[y][x].point;
 		}
 	}
 	return ret;
 }
 np::ndarray Board::get_player_state()const {
-	auto cells = gamelogic->GetField().GetCells();
+	const auto& cells = gamelogic->GetField().cells;
 	py::tuple shape = py::make_tuple(cells.width(), cells.height());
 	np::ndarray ret = np::zeros(shape, np::dtype::get_builtin<long long>());
 	auto ag = gamelogic->GetAgents();
 	for (int i = 0; i < ag.size(); i++) {
-		auto p = ag[i].GetPosition();
+		auto p = ag[i].position;
 		ret[p.x][p.y] = i + 1;
 	}
 	return ret;
@@ -91,7 +90,7 @@ int Board::get_point(int player) const {
 }
 py::list Board::get_availables()const {
 	py::list ret{};
-	auto team = gamelogic->getTeamLogics()[0];
+	auto team = gamelogic->GetTeams()[0];
 	for (int move = 0; move < 17 * 17; move++) {
 		int move1 = move / 17;
 		int move2 = move % 17;
@@ -99,14 +98,14 @@ py::list Board::get_availables()const {
 		Action act2{ move2 / 8 };
 		Direction dir1{ (int)act1 == 2 ? 8 : move1 % 8 };
 		Direction dir2{ (int)act2 == 2 ? 8 : move2 % 8 };
-		Think think{ { act1,dir1 },{ act2,dir2 } };
+		Think think{ Step{ act1,dir1 },Step{ act2,dir2 } };
 
 		if (gamelogic->IsThinkAble(turn, think))ret.append(move);
 	}
 	return ret;
 }
-Board::Board() :gamelogic(new GameLogic(60)) {
-	gamelogic->initAgentsPos();
+Board::Board() :gamelogic(new GameLogic()) {
+	gamelogic->InitializeRandom(60, 6, 6);
 }
 
 Board::Board(const Board &b) : gamelogic(std::make_unique<GameLogic>(*b.gamelogic)), _thinks(b._thinks), turn(b.turn), first(b.first) {}
@@ -114,6 +113,7 @@ Board::Board(const Board &b) : gamelogic(std::make_unique<GameLogic>(*b.gamelogi
 void Board::make_board(py::tuple size, np::ndarray points,
 	py::tuple agent1, py::tuple agent2, py::tuple agent3, py::tuple agent4,
 	np::ndarray tile, int rturn) {
+	using std::array;
 	using std::vector;
 	using size_itr = boost::python::stl_input_iterator<size_t>;
 	size_itr begin(size), end; vector<size_t> fieldsize(begin, end);
@@ -126,9 +126,9 @@ void Board::make_board(py::tuple size, np::ndarray points,
 		poss.emplace_back(vector<int>(begin, end));
 	}
 
-	vector<TeamLogic> teamlogic{
-		{ TeamType::A,{ { poss[0][0],poss[0][1] } },{ { poss[1][0],poss[1][1] } } },
-		{ TeamType::B,{ { poss[2][0],poss[2][1] } },{ { poss[3][0],poss[3][1] } } }
+	array<TeamLogic, 2> teamlogic{
+		TeamLogic{ array<Agent,2>{Agent{{ poss[0][0],poss[0][1] }} , Agent{{ poss[1][0],poss[1][1] }} } },
+		TeamLogic{ array<Agent,2>{Agent{{ poss[2][0],poss[2][1] }} , Agent{{ poss[3][0],poss[3][1] }} } }
 	};
 
 	_Size field_size{ fieldsize[0],fieldsize[1] };
@@ -141,7 +141,7 @@ void Board::make_board(py::tuple size, np::ndarray points,
 	{
 		for (int k : irange(0, (int)data_size.x))
 		{
-			gcell[i][k] = data[idx];
+			gcell[i][k].point = data[idx];
 			// データをコピー
 			gcell[field_size.y - 1 - i][field_size.x - 1 - k] = gcell[i][k];
 			gcell[field_size.y - 1 - i][k] = gcell[i][k];
@@ -171,8 +171,7 @@ void Board::make_board(py::tuple size, np::ndarray points,
 		}
 	}
 	Field field{ gcell };
-	field.UpdatePoint();
-	gamelogic.reset(new GameLogic{ field,rturn,teamlogic });
+	gamelogic->InitializeVariable(rturn, field, teamlogic);
 	first = TeamType::A;
 	this->turn = first;
 	this->_thinks.clear();

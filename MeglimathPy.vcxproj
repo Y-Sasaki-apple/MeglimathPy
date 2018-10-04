@@ -227,13 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="simulater\MeglimathCore\GameLogic\Agent.cpp" />
-    <ClCompile Include="simulater\MeglimathCore\GameLogic\Cell.cpp" />
     <ClCompile Include="simulater\MeglimathCore\GameLogic\Field.cpp" />
     <ClCompile Include="simulater\MeglimathCore\GameLogic\Format.cpp" />
     <ClCompile Include="simulater\MeglimathCore\GameLogic\GameLogic.cpp" />
-    <ClCompile Include="simulater\MeglimathCore\GameLogic\GamePoints.cpp" />
-    <ClCompile Include="simulater\MeglimathCore\GameLogic\TeamLogic.cpp" />
     <ClCompile Include="simulater\MeglimathCore\GameLogic\Think.cpp" />
     <ClCompile Include="simulater\MeglimathCore\GameLogic\Transform.cpp" />
     <ClCompile Include="Source.cpp" />
