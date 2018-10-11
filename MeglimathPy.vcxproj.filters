@@ -54,9 +54,6 @@
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Types.h">
       <Filter>gamelogic</Filter>
     </ClInclude>
-    <ClInclude Include="simulater\MeglimathCore\GameLogic\Util.h">
-      <Filter>gamelogic</Filter>
-    </ClInclude>
     <ClInclude Include="deepcopy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

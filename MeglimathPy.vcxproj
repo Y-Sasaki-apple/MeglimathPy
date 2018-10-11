@@ -223,7 +223,6 @@
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Think.h" />
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Transform.h" />
     <ClInclude Include="simulater\MeglimathCore\GameLogic\Types.h" />
-    <ClInclude Include="simulater\MeglimathCore\GameLogic\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
