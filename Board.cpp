@@ -1,24 +1,33 @@
 #include"Board.h"
 #include"simulater/MeglimathCore/GameLogic/Field.h"
+#include"simulater/MeglimathCore/GameLogic/Transform.h"
 #define BOOST_PYTHON_STATIC_LIB    
 #include<boost\python\tuple.hpp>
 #include<boost\range\irange.hpp>
 #include<iostream>
 using boost::irange;
 void Board::init_board(int turn, int start_player, int width, int height) {
-	gamelogic->InitializeRandom(turn,height,width);
+	gamelogic->InitializeRandom(turn, height, width);
 	first = !start_player ? TeamType::A : TeamType::B;
 	this->turn = first;
 	this->_thinks.clear();
 }
 void Board::do_move(int move) {
-	auto team = gamelogic->GetTeams()[0];
-	int move1 = move / 17;
-	int move2 = move % 17;
-	Action act1{ move1 / 8 };
-	Action act2{ move2 / 8 };
-	Direction dir1{ (int)act1 == 8 ? 8 : move1 % 8 };
-	Direction dir2{ (int)act1 == 8 ? 8 : move2 % 8 };
+	/*move1,move2‚Í[0,12*12*2)*/
+	int move1 = move % (12 * 12 * 2);
+	int move2 = move / (12 * 12 * 2);
+	Action act1{ move1 / (12 * 12) };
+	Action act2{ move2 / (12 * 12) };
+	int to1 = move1 % (12 * 12);
+	int to2 = move2 % (12 * 12);
+	auto agents = gamelogic->GetTeams()[turn].agents;
+	_Point<int> p0 = agents[0].position;
+	_Point<int> p1 = agents[1].position;
+	_Point<int> moveto1 = { to1 / 12,to1 % 12 };
+	_Point<int> moveto2 = { to2 / 12,to2 % 12 };
+	Direction dir1 = Transform::DeltaToDir(moveto1 - p0);
+	Direction dir2 = Transform::DeltaToDir(moveto2 - p1);
+	
 	Think think{ { {{act1,dir1},{act2,dir2} } } };
 	_thinks[turn] = think;
 	if (turn != first) {
@@ -89,18 +98,25 @@ int Board::get_point(int player) const {
 	return this->gamelogic->GetField().GetTotalPoints()[static_cast<int>(pl)];
 }
 py::list Board::get_availables()const {
-	py::list ret{};
-	auto team = gamelogic->GetTeams()[0];
-	for (int move = 0; move < 17 * 17; move++) {
-		int move1 = move / 17;
-		int move2 = move % 17;
-		Action act1{ move1 / 8 };
-		Action act2{ move2 / 8 };
-		Direction dir1{ (int)act1 == 2 ? 8 : move1 % 8 };
-		Direction dir2{ (int)act2 == 2 ? 8 : move2 % 8 };
-		Think think{ Step{ act1,dir1 },Step{ act2,dir2 } };
-
-		if (gamelogic->IsThinkAble(turn, think))ret.append(move);
+	py::list ret;
+	for (int move = 0; move < 12 * 12 * 2 * 12 * 12 * 2; move++) {
+		int move1 = move % (12 * 12 * 2);
+		int move2 = move / (12 * 12 * 2);
+		Action act1{ move1 / (12 * 12) };
+		Action act2{ move2 / (12 * 12) };
+		int to1 = move1 % (12 * 12);
+		int to2 = move2 % (12 * 12);
+		auto agents = gamelogic->GetTeams()[turn].agents;
+		_Point<int> p0 = agents[0].position;
+		_Point<int> p1 = agents[1].position;
+		_Point<int> moveto1 = { to1 / 12,to1 % 12 };
+		_Point<int> moveto2 = { to2 / 12,to2 % 12 };
+		Direction dir1 = Transform::DeltaToDir(moveto1 - p0);
+		Direction dir2 = Transform::DeltaToDir(moveto2 - p1);
+		if (dir1 != Direction::Stop && dir2 != Direction::Stop) {
+			Think think{ { {{act1,dir1},{act2,dir2} } } };
+			if (gamelogic->IsThinkAble(turn, think))ret.append(move);
+		}
 	}
 	return ret;
 }
